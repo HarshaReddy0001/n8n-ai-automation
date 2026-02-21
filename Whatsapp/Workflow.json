@@ -1,0 +1,289 @@
+{
+  "name": "WhatsApp AI Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": ["messages"],
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-4a1b-8c1d-000000000001",
+      "name": "WhatsApp Trigger",
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "whatsapp-webhook-001",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "1",
+          "name": "WhatsApp API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "auto",
+        "options": {
+          "systemMessage": "You are a helpful customer support assistant for an e-commerce business. You help customers with:\n1. Checking product inventory and pricing\n2. Answering frequently asked questions\n3. Taking and recording customer orders\n\nAlways be polite, professional, and concise. When a customer wants to place an order, collect their product name and quantity, then use the take_orders tool to record it. When they ask about products, use the get_inventory tool. For general questions, use the FAQ tool.\n\nAlways respond in the same language the customer uses."
+        }
+      },
+      "id": "a1b2c3d4-0002-4a1b-8c1d-000000000002",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [520, 300]
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {
+          "temperature": 0.7,
+          "maxOutputTokens": 1024
+        }
+      },
+      "id": "a1b2c3d4-0003-4a1b-8c1d-000000000003",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [340, 520],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "2",
+          "name": "Google Gemini API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('WhatsApp Trigger').item.json.entry[0].changes[0].value.messages[0].from }}",
+        "contextWindowLength": 10
+      },
+      "id": "a1b2c3d4-0004-4a1b-8c1d-000000000004",
+      "name": "Simple Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.2,
+      "position": [520, 520]
+    },
+    {
+      "parameters": {
+        "name": "get_inventory",
+        "description": "Use this tool to check product inventory, availability, stock quantity, and pricing. Call this when a customer asks about a product, its price, or whether it is in stock.",
+        "workflowId": {
+          "__rl": true,
+          "value": "inventory_subworkflow",
+          "mode": "id"
+        },
+        "workflowValues": {
+          "values": [
+            {
+              "name": "query",
+              "stringValue": "={{ $fromAI('query', 'The product name or search term the customer is asking about') }}"
+            }
+          ]
+        },
+        "specifyInputSchema": true,
+        "jsonSchemaExample": "{\n  \"query\": \"product name or search term\"\n}",
+        "responsePropertyName": "response"
+      },
+      "id": "a1b2c3d4-0005-4a1b-8c1d-000000000005",
+      "name": "get inventory",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.1,
+      "position": [700, 520]
+    },
+    {
+      "parameters": {
+        "name": "FAQ",
+        "description": "Use this tool to answer frequently asked questions from customers such as delivery times, refund policy, payment methods, business hours, and general information.",
+        "workflowId": {
+          "__rl": true,
+          "value": "faq_subworkflow",
+          "mode": "id"
+        },
+        "workflowValues": {
+          "values": [
+            {
+              "name": "question",
+              "stringValue": "={{ $fromAI('question', 'The customer question to look up in the FAQ') }}"
+            }
+          ]
+        },
+        "specifyInputSchema": true,
+        "jsonSchemaExample": "{\n  \"question\": \"customer question\"\n}",
+        "responsePropertyName": "response"
+      },
+      "id": "a1b2c3d4-0006-4a1b-8c1d-000000000006",
+      "name": "FAQ",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.1,
+      "position": [860, 520]
+    },
+    {
+      "parameters": {
+        "name": "take_orders",
+        "description": "Use this tool to record a customer order. Call this when a customer confirms they want to place an order. Collect the product name and quantity before calling this tool.",
+        "workflowId": {
+          "__rl": true,
+          "value": "orders_subworkflow",
+          "mode": "id"
+        },
+        "workflowValues": {
+          "values": [
+            {
+              "name": "customer_phone",
+              "stringValue": "={{ $fromAI('customer_phone', 'The customer phone number from WhatsApp') }}"
+            },
+            {
+              "name": "product_name",
+              "stringValue": "={{ $fromAI('product_name', 'The name of the product the customer wants to order') }}"
+            },
+            {
+              "name": "quantity",
+              "stringValue": "={{ $fromAI('quantity', 'The quantity of the product the customer wants') }}"
+            }
+          ]
+        },
+        "specifyInputSchema": true,
+        "jsonSchemaExample": "{\n  \"customer_phone\": \"phone number\",\n  \"product_name\": \"product name\",\n  \"quantity\": \"1\"\n}",
+        "responsePropertyName": "response"
+      },
+      "id": "a1b2c3d4-0007-4a1b-8c1d-000000000007",
+      "name": "take orders",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.1,
+      "position": [1020, 520]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "phoneNumberId": "YOUR_PHONE_NUMBER_ID",
+        "recipientPhoneNumber": "={{ $('WhatsApp Trigger').item.json.entry[0].changes[0].value.messages[0].from }}",
+        "textBody": "={{ $('AI Agent').item.json.output }}",
+        "additionalFields": {}
+      },
+      "id": "a1b2c3d4-0008-4a1b-8c1d-000000000008",
+      "name": "Send message",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [800, 300],
+      "credentials": {
+        "whatsAppApi": {
+          "id": "1",
+          "name": "WhatsApp API"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get inventory": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FAQ": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "take orders": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-10-01T00:00:00.000Z",
+      "updatedAt": "2024-10-01T00:00:00.000Z",
+      "id": "tag001",
+      "name": "whatsapp"
+    },
+    {
+      "createdAt": "2024-10-01T00:00:00.000Z",
+      "updatedAt": "2024-10-01T00:00:00.000Z",
+      "id": "tag002",
+      "name": "ai-agent"
+    },
+    {
+      "createdAt": "2024-10-01T00:00:00.000Z",
+      "updatedAt": "2024-10-01T00:00:00.000Z",
+      "id": "tag003",
+      "name": "gemini"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-10-01T00:00:00.000Z",
+  "versionId": "v1.0.0"
+}
