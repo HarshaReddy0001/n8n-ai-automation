@@ -6,7 +6,7 @@ A collection of **3 real-world AI automation workflows** built with n8n, Google 
 
 ## 📂 Projects
 
-### 1. 🔍 [LinkedIn Job Hunter](./linkedin-job-hunter-n8n/)
+### 1. 🔍 [Auto-LinkedIn-Job-Tracker-Telegram alerts](./linkedin-job-hunter-n8n/)
 **Auto-match resume with AI + Cover Letter + Telegram alerts**
 
 Runs every day at 5PM — scrapes LinkedIn, scores each job against your resume using Gemini AI (0–100), generates a custom cover letter, and sends only the best matches to your Telegram.
