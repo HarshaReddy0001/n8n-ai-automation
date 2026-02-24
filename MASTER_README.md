@@ -6,7 +6,7 @@ A collection of **3 real-world AI automation workflows** built with n8n, Google 
 
 ## 📂 Projects
 
-### 1. 🔍 [Auto-LinkedIn-Job-Tracker-Telegram alerts](./linkedin-job-hunter-n8n/)
+### 1. 🔍 [Auto-LinkedIn-Job-Tracker-Telegram alerts](https://github.com/HarshaReddy0001/N8N-AI-AUTOMATION/tree/main/Linkdein-jobs-Telgram-Alerts)
 **Auto-match resume with AI + Cover Letter + Telegram alerts**
 
 Runs every day at 5PM — scrapes LinkedIn, scores each job against your resume using Gemini AI (0–100), generates a custom cover letter, and sends only the best matches to your Telegram.
@@ -22,7 +22,7 @@ Runs every day at 5PM — scrapes LinkedIn, scores each job against your resume 
 
 ---
 
-### 2. 💬 [WhatsApp AI Chatbot](./whatsapp-chatbot/)
+### 2. 💬 [WhatsApp AI Chatbot](https://github.com/HarshaReddy0001/N8N-AI-AUTOMATION/tree/main/Whatsapp)
 **AI-powered customer support bot with inventory + order management**
 
 An intelligent WhatsApp bot that handles customer FAQs, checks inventory, and takes orders — all powered by Google Gemini and Google Sheets as the database.
@@ -36,7 +36,7 @@ An intelligent WhatsApp bot that handles customer FAQs, checks inventory, and ta
 
 ---
 
-### 3. 🌐 [Website Portfolio Chatbot — Nathan](./website-chatbot/)
+### 3. 🌐 [Website Portfolio Chatbot — Nathan](https://github.com/HarshaReddy0001/N8N-AI-AUTOMATION/tree/main/Website)
 **AI assistant embedded on personal portfolio website**
 
 Nathan is an AI chatbot on my portfolio website that answers visitor questions 24/7. Reads a Google Sheets Q&A database for quick answers and a Google Docs resume for detailed answers — responds in the visitor's language automatically.
