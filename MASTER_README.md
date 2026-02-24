@@ -18,8 +18,6 @@ Runs every day at 5PM — scrapes LinkedIn, scores each job against your resume 
 | **Output** | Telegram alerts + Google Sheets results |
 | **Tools** | n8n, Gemini, Google Drive, Google Sheets, Telegram |
 
-![LinkedIn Job Hunter](./linkedin-job-hunter-n8n/screenshots/01_workflow_overview.png)
-
 ---
 
 ### 2. 💬 [WhatsApp AI Chatbot](https://github.com/HarshaReddy0001/N8N-AI-AUTOMATION/tree/main/Whatsapp)
@@ -48,7 +46,7 @@ Nathan is an AI chatbot on my portfolio website that answers visitor questions 2
 | **Output** | Real-time chat reply on website |
 | **Tools** | n8n, Gemini, Google Sheets, Google Docs, Netlify |
 
-🌐 **Live demo:** [harsha-porfolio.netlify.app](https://harsha-porfolio.netlify.app)
+
 
 ---
 
