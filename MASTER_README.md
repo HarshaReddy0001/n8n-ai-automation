@@ -1,120 +1,109 @@
-# 🤖 AI Automation Portfolio Projects
+# 🤖 N8N AI Automation Projects
 
-**AI Website Chatbot + Telegram Job Intelligence Agent**
+A collection of **3 real-world AI automation workflows** built with n8n, Google Gemini, and various APIs. Each project solves a practical problem — from job hunting to customer support — all fully automated with zero manual effort.
 
-This repository contains two production-ready AI automation systems
-built using n8n, LLMs (Google Gemini), structured data sources, and live
-deployment.
+---
 
-These projects demonstrate real-world AI integration --- full automation
-pipelines, not just model usage.
+## 📂 Projects
 
-------------------------------------------------------------------------
+### 1. 🔍 [Auto-LinkedIn-Job-Tracker-Telegram alerts](./linkedin-job-hunter-n8n/)
+**Auto-match resume with AI + Cover Letter + Telegram alerts**
 
-# 📌 Projects Included
+Runs every day at 5PM — scrapes LinkedIn, scores each job against your resume using Gemini AI (0–100), generates a custom cover letter, and sends only the best matches to your Telegram.
 
-## 1️⃣ AI Portfolio Website Chatbot --- "Nathan"
+| | |
+|-|-|
+| **Trigger** | Automated daily at 5PM |
+| **AI** | Google Gemini — resume scoring + cover letter |
+| **Output** | Telegram alerts + Google Sheets results |
+| **Tools** | n8n, Gemini, Google Drive, Google Sheets, Telegram |
 
-Live AI chatbot embedded in a portfolio website that answers recruiter
-and technical questions dynamically.
+![LinkedIn Job Hunter](./linkedin-job-hunter-n8n/screenshots/01_workflow_overview.png)
 
-### 🔗 Live Demo
+---
 
-https://harsha-porfolio.netlify.app
+### 2. 💬 [WhatsApp AI Chatbot](./whatsapp-chatbot/)
+**AI-powered customer support bot with inventory + order management**
 
-### 🧠 What It Does
+An intelligent WhatsApp bot that handles customer FAQs, checks inventory, and takes orders — all powered by Google Gemini and Google Sheets as the database.
 
--   Answers technical questions (Python, ML, NLP, Cloud, n8n)
--   Explains projects in detail
--   Summarizes work experience
--   Shares availability (C2C, W2, Full-time, Remote)
--   Provides LinkedIn and GitHub
--   Detects language automatically
--   Maintains short-term memory
+| | |
+|-|-|
+| **Trigger** | WhatsApp message |
+| **AI** | Google Gemini — conversational agent |
+| **Output** | WhatsApp reply + Google Sheets order logging |
+| **Tools** | n8n, Gemini, WhatsApp Business API, Google Sheets |
 
-------------------------------------------------------------------------
+---
 
-### 🏗 Architecture
+### 3. 🌐 [Website Portfolio Chatbot — Nathan](./website-chatbot/)
+**AI assistant embedded on personal portfolio website**
 
-Visitor (Website) │ ▼ n8n Chat Trigger (Webhook) │ ▼ AI Agent (Nathan) │
-├── Google Gemini (LLM) ├── Simple Memory ├── Google Sheets (Structured
-Q&A DB) └── Google Docs (Resume Source) │ ▼ Generated Response → Website
+Nathan is an AI chatbot on my portfolio website that answers visitor questions 24/7. Reads a Google Sheets Q&A database for quick answers and a Google Docs resume for detailed answers — responds in the visitor's language automatically.
 
-------------------------------------------------------------------------
+| | |
+|-|-|
+| **Trigger** | Visitor message on website |
+| **AI** | Google Gemini — reads resume + Q&A database |
+| **Output** | Real-time chat reply on website |
+| **Tools** | n8n, Gemini, Google Sheets, Google Docs, Netlify |
 
-### ⚙ Tech Stack
+🌐 **Live demo:** [harsha-porfolio.netlify.app](https://harsha-porfolio.netlify.app)
 
--   n8n (workflow automation)
--   Google Gemini (gemini-1.5-flash)
--   Google Sheets (Q&A database)
--   Google Docs (Resume integration)
--   Netlify (hosting)
--   HTML Chat Widget
+---
 
-------------------------------------------------------------------------
+## 🗂️ Repository Structure
 
-## 2️⃣ Telegram AI Job Intelligence Agent
+```
+n8n-ai-automation-projects/
+│
+├── README.md                          ← You are here
+│
+├── linkedin-job-hunter-n8n/           ← Project 1
+│   ├── README.md
+│   ├── requirements.md
+│   ├── setup_guide.md
+│   ├── Auto-LinkedIn-Job-Tracker-N8N.json
+│   ├── google_sheet.xlsx
+│   └── screenshots/
+│
+├── whatsapp-chatbot/                  ← Project 2
+│   ├── README.md
+│   └── whatsapp_ai_agent.json
+│
+└── website-chatbot/                   ← Project 3
+    ├── README.md
+    ├── setup_guide.md
+    ├── agent_rules.md
+    ├── workflow.json
+    ├── nathan_qa_database.xlsx
+    └── Harshavardhan_Resume_Nathan_GoogleDoc.md
+```
 
-An automated AI job assistant that monitors Telegram job groups, filters
-relevant postings, analyzes job descriptions using LLMs, and sends
-structured alerts.
+---
 
-### 🧠 What It Does
+## 🛠️ Tech Stack Across All Projects
 
--   Monitors Telegram job groups
--   Extracts job descriptions automatically
--   Classifies roles using LLM
--   Matches required skills
--   Scores relevance
--   Filters spam
--   Sends structured alerts
--   Extendable to auto-apply
+| Tool | Used In |
+|------|---------|
+| **n8n** | All 3 projects |
+| **Google Gemini** | All 3 projects |
+| **Google Sheets** | All 3 projects |
+| **Google Drive** | LinkedIn Job Hunter |
+| **Google Docs** | Website Chatbot |
+| **Telegram Bot API** | LinkedIn Job Hunter |
+| **WhatsApp Business API** | WhatsApp Chatbot |
+| **Netlify** | Website Chatbot |
 
-------------------------------------------------------------------------
+---
 
-### 🏗 Architecture
+## 👤 Author
 
-Telegram Trigger │ ▼ Message Parser │ ▼ AI Agent (Gemini) │ ├── Skill
-Matching Logic ├── Job Classification ├── Relevance Scoring └──
-Structured Output │ ▼ Filtered Job Alert
+**Harshavardhan Reddy**
+- 🌐 Portfolio: [see my works](https://harsha-porfolio.netlify.app)
+- 💼 LinkedIn: [Can connect and chit chat ](https://www.linkedin.com/in/harshareddyr)
+- 🐙 GitHub: [go through my projects](https://github.com/HarshaReddy0001)
 
-------------------------------------------------------------------------
+---
 
-# 📂 Repository Structure
-
-AI-Automation-Portfolio/ │ ├── website-chatbot/ │ ├── workflow.json │
-├── setup_guide.md │ ├── nathan_qa_database.xlsx │ └── README.md │ ├──
-telegram-job-agent/ │ ├── workflow.json │ ├── setup_guide.md │ └──
-README.md │ └── MASTER_README.md
-
-------------------------------------------------------------------------
-
-# 🚀 Why This Matters
-
--   Real automation systems
--   Live deployment
--   Multi-tool integration
--   LLM orchestration
--   Structured reasoning pipelines
--   Practical recruiter use cases
-
-------------------------------------------------------------------------
-
-# 🔮 Future Improvements
-
--   Vector database integration (Pinecone / Supabase)
--   Full RAG pipeline
--   Persistent memory (Redis)
--   Recruiter lead automation
--   Auto-application engine
--   Usage analytics dashboard
-
-------------------------------------------------------------------------
-
-# 👨‍💻 Author
-
-Harshavardhan Reddy\
-AI Automation Engineer \| Data Scientist
-
-LinkedIn: https://www.linkedin.com/in/harshavardhan-reddy\
-GitHub: https://github.com/harshavardhan
+> Built with n8n + Google Gemini. Real workflows. Real results. ⚡
